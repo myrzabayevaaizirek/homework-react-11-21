@@ -1,27 +1,22 @@
-import React, { useState, useEffect } from "react";
-import ProductCard from "./ProductCard";
+import React, { useState, useEffect } from 'react';
+import ProductCard from './ProductCard'; 
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("https://fakestoreapi.com/products");
-        const data = await response.json();
+    fetch('https://fakestoreapi.com/products')
+      .then((response) => response.json())
+      .then((data) => {
         setProducts(data);
         setLoading(false);
-      } catch (error) {
-        console.error("Ошибка загрузки данных:", error);
-      }
-    };
-
-    fetchProducts();
+      })
+      .catch((error) => console.error('Error fetching products:', error));
   }, []);
 
   if (loading) {
-    return <div>Загрузка товаров...</div>;
+    return <p>Loading products...</p>;
   }
 
   return (
